@@ -94,4 +94,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Deploy to Vercel
-        run: pnpm dlx vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          pnpm dlx vercel deploy             --prod             --yes             --token="$VERCEL_TOKEN"             --project="prj_5a6Jw0bqXQ6dmFF6PoZIIu5i8i4w"
