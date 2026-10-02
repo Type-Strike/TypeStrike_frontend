@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Frontend CI/CD
 
 on:
   pull_request:
@@ -54,7 +54,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 22 
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
@@ -62,3 +62,36 @@ jobs:
 
       - name: Build application
         run: pnpm build
+
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+
+    needs:
+      - lint
+      - build
+
+    # Deploy ONLY after a push to main.
+    # A push to a feature branch or a PR event can never deploy.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Deploy to Vercel
+        run: pnpm dlx vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
