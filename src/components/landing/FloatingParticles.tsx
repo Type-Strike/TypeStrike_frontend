@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 interface Dot {
   id: number;
   left: string;
@@ -9,21 +7,17 @@ interface Dot {
   dur: number;
 }
 
+// Generated once at module load — Math.random() must not be called during render
+const dots: Dot[] = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  left: `${10 + Math.random() * 80}%`,
+  top: `${15 + Math.random() * 65}%`,
+  size: 2 + Math.random() * 3,
+  delay: Math.random() * 4,
+  dur: 2.5 + Math.random() * 2.5,
+}));
+
 export default function FloatingParticles() {
-  const dots = useMemo<Dot[]>(() => {
-    const out: Dot[] = [];
-    for (let i = 0; i < 18; i++) {
-      out.push({
-        id: i,
-        left: `${10 + Math.random() * 80}%`,
-        top: `${15 + Math.random() * 65}%`,
-        size: 2 + Math.random() * 3,
-        delay: Math.random() * 4,
-        dur: 2.5 + Math.random() * 2.5,
-      });
-    }
-    return out;
-  }, []);
 
   return (
     <div className="ln-particles" aria-hidden="true">
