@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 
 export default function Landing() {
   return (
-    <main className="relative h-dvh min-h-[600px] w-full overflow-hidden bg-[#080d20]">
+    <main className="relative h-dvh min-h-150 w-full overflow-hidden bg-[#080d20]">
 
       {/* ================= BACKGROUND ================= */}
       <img
